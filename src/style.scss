@@ -33,4 +33,14 @@
   padding: 1em 1.5em;
   cursor: pointer;
   background: transparent;
+  border: 2px solid rgba(0, 0, 0, 0);
+
+  color: rgba(255, 255, 255, 0.87);
+  transition: all .4s;
+
+}
+
+.btn:hover {
+  background: rgba(0, 0, 0, 0.21);
+  color: white;
 }
