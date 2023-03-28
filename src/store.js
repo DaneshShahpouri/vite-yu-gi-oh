@@ -4,6 +4,8 @@ import { reactive } from 'vue';
 export const store = reactive({
     ApiArray: [],
 
+    isVisibleInfo: true,
+
     // GLOBALINDEX
     isAnimatePrev: false,
     isAnimatePost: false,

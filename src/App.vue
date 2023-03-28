@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import AppTopSide from './components/AppTopSide.vue';
 import AppBottomSide from './components/AppBottomSide.vue';
+import AppMiddle from './components/AppMiddle.vue';
 
 
 export default {
@@ -16,6 +17,7 @@ export default {
   components: {
     AppTopSide,
     AppBottomSide,
+    AppMiddle,
   },
 
   beforeCreate() {
@@ -40,6 +42,7 @@ export default {
     <div class="topside">
       <AppTopSide></AppTopSide>
     </div>
+    <AppMiddle></AppMiddle>
     <AppBottomSide></AppBottomSide>
 
   </div>

@@ -18,6 +18,18 @@ export default {
             } else[
                 this.isExpande = true
             ]
+        },
+
+        changeIndex(indexArguments) {
+            store.globalIndex = indexArguments;
+            store.globalIndexPost = store.globalIndex + 1;
+            store.globalIndexPrev = store.globalIndex - 1;
+
+            if (store.globalIndex == 0) {
+                store.globalIndexPrev == store.ApiArray.length - 1
+            } else if (store.globalIndex == store.ApiArray.length - 1) {
+                store.globalIndexPost = 0
+            }
         }
     },
 
@@ -44,9 +56,10 @@ export default {
 
                 <div v-for="(card, index) in store.ApiArray" class="card" v-if="this.isExpande">
 
-                    <div class="row" :class="'element-' + index">
+                    <div class="row">
 
-                        <img :src="store.ApiArray[index].card_images[0].image_url_small" alt="img">
+                        <img :src="store.ApiArray[index].card_images[0].image_url_small" alt="img"
+                            @click="changeIndex(index)" :class="store.globalIndex == index ? 'active' : ''">
 
 
 
@@ -71,6 +84,7 @@ export default {
     background: $backgroundcolor;
 
     .container-inner {
+        margin: 0 auto;
         max-width: 1200px;
         min-height: 500px;
 
@@ -98,7 +112,7 @@ export default {
 .row-wrapper {
     width: 100%;
     display: flex;
-    flex-flow: row-reverse wrap;
+    flex-flow: row wrap;
     align-items: center;
     justify-content: center;
     margin: 1em auto;
@@ -109,13 +123,20 @@ export default {
 }
 
 .row {
-    width: 80%;
+    width: 90%;
     height: 20px;
 
     position: relative;
 
 
     background: #000;
+
+    .active {
+        filter: contrast(1) brightness(1);
+        top: -8px;
+        z-index: 2;
+
+    }
 
     &-1 {
         width: 50%;
@@ -143,7 +164,7 @@ export default {
 }
 
 .card {
-    width: calc((100% / 7));
+    width: calc((100% / 8));
     // position: absolute;
     bottom: 0;
     height: 120px;
