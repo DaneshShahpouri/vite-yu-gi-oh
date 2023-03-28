@@ -1,11 +1,513 @@
 <script>
+import axios from 'axios';
 
+export default {
+  data() {
+    return {
+      ApiCall: [],
+
+      // GLOBALINDEX
+      isAnimatePrev: false,
+      isAnimatePost: false,
+
+
+      globalIndexPrevPrev: 0,
+      globalIndexPrev: 1,
+
+      globalIndex: 2,
+
+      globalIndexPost: 3,
+      globalIndexPostPost: 4,
+      // fine GLOBALINDEX
+
+      AnimationTime: 500,
+    }
+
+  },
+
+  methods: {
+    PrevClick() {
+      let Timeoutprev = setTimeout(() => {
+        this.isAnimatePrev = false;
+
+        this.globalIndex--;
+        this.globalIndexPrev = this.globalIndex - 1;
+        this.globalIndexPost = this.globalIndex + 1;
+
+        this.globalIndexPrevPrev = this.globalIndexPrev - 1;
+        this.globalIndexPostPost = this.globalIndexPost + 1;
+
+        if (this.globalIndex == 1) {
+          this.globalIndexPrevPrev = this.ApiCall.length - 1
+        } else if (this.globalIndex == 0) {
+          this.globalIndexPrev = this.ApiCall.length - 1;
+          this.globalIndexPrevPrev = this.globalIndexPrev - 1;
+        } else if (this.globalIndex < 0) {
+          this.globalIndex = this.ApiCall.length - 1
+          this.globalIndexPrev = this.globalIndex - 1;
+          this.globalIndexPrevPrev = this.globalIndexPrev - 1;
+        }
+      }, this.AnimationTime);
+
+      this.isAnimatePrev = true;
+    },
+
+    PostClick() {
+      let Timeout = setTimeout(() => {
+        this.isAnimatePost = false;
+
+        this.globalIndex++;
+        this.globalIndexPrev = this.globalIndex - 1;
+        this.globalIndexPost = this.globalIndex + 1;
+
+        this.globalIndexPrevPrev = this.globalIndexPrev - 1;
+        this.globalIndexPostPost = this.globalIndexPost + 1;
+
+        if (this.globalIndex == this.ApiCall.length - 2) {
+          this.globalIndexPostPost = 0;
+        } else if (this.globalIndex == this.ApiCall.length - 1) {
+          this.globalIndexPost = 0;
+          this.globalIndexPostPost = this.globalIndexPost + 1;
+        } else if (this.globalIndex > this.ApiCall.length - 1) {
+          this.globalIndex = 0;
+          this.globalIndexPost = this.globalIndex + 1;
+          this.globalIndexPostPost = this.globalIndexPost + 1
+        }
+
+      }, this.AnimationTime);
+
+      this.isAnimatePost = true;
+
+    }
+  },
+
+  created() {
+    axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=50&offset=0').then((res) => {
+      //console.log(res.data.data)
+      this.ApiCall = res.data.data;
+      //console.log(this.ApiCall)
+    })
+  },
+
+  mounted() {
+
+  }
+}
 </script>
 
 <template>
-  <div>
+  <div class="cards-container">
+    <div v-if="ApiCall.length > 0" class="preview-cards"
+      :class="this.isAnimatePost ? 'post-animation' : this.isAnimatePrev ? 'prev-animation' : ''">
+      <button class="btn btn-prev" @click="PrevClick()"><i class="fa-solid fa-arrow-left"></i></button>
+      <button class="btn btn-post" @click="PostClick()"><i class="fa-solid fa-arrow-right"></i></button>
 
+      <div class="layer-shadows"></div>
+
+      <div class="card card-prev-prev" v-if="this.isAnimatePrev">
+        <img :src="ApiCall[globalIndexPrevPrev].card_images[0].image_url">
+      </div>
+
+      <div class="card card-prev">
+        <img :src="ApiCall[globalIndexPrev].card_images[0].image_url">
+      </div>
+
+      <div class="card card-main">
+        <img :src="ApiCall[globalIndex].card_images[0].image_url">
+      </div>
+
+      <div class="card card-post">
+        <img :src="ApiCall[globalIndexPost].card_images[0].image_url">
+      </div>
+
+      <div class="card card-post-post" v-if="this.isAnimatePost">
+        <img :src="ApiCall[globalIndexPostPost].card_images[0].image_url">
+      </div>
+
+    </div>
+
+    <div class="info-box">
+      <h4>{{ ApiCall[globalIndexPrevPrev].name }}</h4>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@use '../scss/variables' as *;
+
+.btn-post,
+.btn-prev {
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  font-size: 1.5em;
+  z-index: 3;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 50px;
+  background: #0000009d;
+  opacity: .8;
+
+  transform: translateY(-50%);
+
+  &:hover {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.562);
+    opacity: 1;
+  }
+}
+
+.btn-post {
+  right: 7%;
+}
+
+.btn-prev {
+  left: 7%;
+}
+
+.cards-container {
+  width: 100%;
+  height: 100%;
+
+  background: $backgroundcolor;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+
+
+  .layer-shadows {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+
+    aspect-ratio: 16/7;
+
+    background: radial-gradient(rgba(36, 36, 36, 0) 35%, $backgroundcolor 85%);
+  }
+
+  .preview-cards {
+    margin-top: 1em;
+    position: relative;
+
+
+    width: 80%;
+    height: 100%;
+
+
+    overflow: hidden;
+
+
+    .card {
+      width: calc(100% / 3 - (2em));
+      overflow: hidden;
+      position: absolute;
+
+
+      &-prev {
+        top: 0;
+        left: 10%;
+        z-index: 1;
+
+        filter: opacity(.8);
+        scale: .97;
+
+        &-prev {
+          top: 0;
+          left: -10%;
+          z-index: 1;
+
+          filter: opacity(.4);
+          scale: .9;
+
+          animation: CardPPPrevAnimation $TimeScrollAnimation;
+        }
+      }
+
+      &-main {
+        position: absolute;
+        top: 0;
+        left: 50%;
+
+        transform: translateX(-50%);
+        z-index: 2;
+
+        box-shadow: 0 0 10px black;
+        filter: opacity(1);
+        scale: 1;
+      }
+
+      &-post {
+        top: 0;
+        right: 10%;
+        z-index: 1;
+        filter: opacity(.8);
+        scale: .97;
+
+        &-post {
+          right: -5%;
+          top: 0;
+          z-index: 0;
+          filter: opacity(.4);
+          scale: .9;
+
+          animation: CardPPPostAnimation $TimeScrollAnimation;
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.prev-animation {
+  .card-main {
+    animation: CardMainPrevAnimation $TimeScrollAnimation;
+  }
+
+  .card-prev {
+    animation: CardPrevPrevAnimation $TimeScrollAnimation;
+  }
+
+  .card-post {
+    animation: CardPostPrevAnimation $TimeScrollAnimation;
+  }
+}
+
+.post-animation {
+  .card-main {
+    animation: CardMainPostAnimation $TimeScrollAnimation;
+  }
+
+  .card-prev {
+    animation: CardPrevPostAnimation $TimeScrollAnimation;
+  }
+
+  .card-post {
+    animation: CardPostPostAnimation $TimeScrollAnimation;
+  }
+}
+
+// Animazione PrevClick
+@keyframes CardMainPrevAnimation {
+  0% {
+    left: 50%;
+    z-index: 2;
+
+    box-shadow: 0 0 10px black;
+    filter: opacity(1);
+    scale: 1;
+
+    transform: rotate(0) translateX(-50%);
+  }
+
+  10% {
+    transform: rotate(-5deg) translateX(-50%)
+  }
+
+  50% {
+    transform: rotate(10deg) translateX(-50%);
+  }
+
+  100% {
+    filter: opacity(.9);
+    left: 75%;
+    scale: .97;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    transform: rotate(0) translateX(-50%);
+  }
+}
+
+@keyframes CardPrevPrevAnimation {
+  0% {
+    left: 10%;
+    z-index: 1;
+    transform: translateX(0%) rotate(0);
+    filter: opacity(.8);
+    scale: .97;
+  }
+
+  10% {
+    transform: translateX(0%) rotate(-2deg)
+  }
+
+  50% {
+    transform: translateX(-25%) rotate(5deg)
+  }
+
+  100% {
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+    z-index: 2;
+
+    box-shadow: 0 0 10px black;
+    filter: opacity(1);
+    scale: 1;
+  }
+}
+
+@keyframes CardPostPrevAnimation {
+  0% {
+    top: 0;
+    right: 10%;
+    z-index: 1;
+    filter: opacity(.8);
+    scale: .97;
+    transform: rotate(0);
+  }
+
+  10% {
+    transform: rotate(-2deg);
+  }
+
+  50% {
+    transform: rotate(10deg);
+    z-index: 0;
+  }
+
+  100% {
+    right: -10%;
+    opacity: 0;
+  }
+}
+
+@keyframes CardPPPrevAnimation {
+  0% {
+    top: 0;
+    left: -10%;
+    z-index: 1;
+
+    filter: opacity(0);
+    scale: .9;
+  }
+
+  100% {
+    left: 10%;
+    z-index: 1;
+    transform: translateX(0%) rotate(0);
+    filter: opacity(.8);
+    scale: .97;
+  }
+
+}
+
+// Animazione PostClick
+@keyframes CardMainPostAnimation {
+  0% {
+    left: 50%;
+    z-index: 2;
+
+    box-shadow: 0 0 10px black;
+    filter: opacity(1);
+    scale: 1;
+
+    transform: rotate(0) translateX(-50%);
+  }
+
+  10% {
+    transform: rotate(5deg) translateX(-50%)
+  }
+
+  50% {
+    transform: rotate(-10deg) translateX(-25%);
+  }
+
+  100% {
+    filter: opacity(.8);
+    left: 10%;
+    scale: .97;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    transform: rotate(0) translateX(0%);
+  }
+}
+
+@keyframes CardPrevPostAnimation {
+  0% {
+    left: 10%;
+    z-index: 1;
+    transform: translateX(0%) rotate(0);
+    filter: opacity(.8);
+    scale: .97;
+  }
+
+  10% {
+    transform: rotate(2deg);
+  }
+
+  50% {
+    transform: rotate(-10deg);
+    z-index: 0;
+  }
+
+  100% {
+    left: -10%;
+    opacity: 0;
+  }
+}
+
+@keyframes CardPostPostAnimation {
+  0% {
+    top: 0;
+    right: 10%;
+    z-index: 1;
+    filter: opacity(.8);
+    scale: .97;
+    transform: rotate(0);
+  }
+
+  10% {
+    transform: translateX(0%) rotate(2deg)
+  }
+
+  50% {
+    transform: translateX(25%) rotate(-5deg)
+  }
+
+  100% {
+    position: absolute;
+    top: 0;
+    right: 50%;
+
+    transform: translateX(50%);
+    z-index: 2;
+
+    box-shadow: 0 0 10px black;
+    filter: opacity(1);
+    scale: 1;
+  }
+}
+
+@keyframes CardPPPostAnimation {
+  0% {
+    right: -5%;
+    top: 0;
+    z-index: 0;
+    filter: opacity(0);
+    scale: .9;
+  }
+
+  100% {
+    top: 0;
+    right: 10%;
+    z-index: 1;
+    filter: opacity(.8);
+    scale: .97;
+  }
+}
+</style>
