@@ -86,7 +86,7 @@ export default {
     .container-inner {
         margin: 0 auto;
         max-width: 1200px;
-        min-height: 500px;
+        min-height: 100px;
 
         .box-control {
             display: flex;

@@ -5,6 +5,7 @@ export const store = reactive({
     ApiArray: [],
 
     isVisibleInfo: false,
+    isHoverMain: false,
 
     // GLOBALINDEX
     isAnimatePrev: false,

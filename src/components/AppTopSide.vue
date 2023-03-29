@@ -66,6 +66,21 @@ export default {
 
       store.isAnimatePost = true;
 
+    },
+
+    activeMainVisibility() {
+      store.isHoverMain = true
+    },
+
+    disableMainVisibility() {
+      store.isHoverMain = false
+    },
+    changeisVisibleInfo() {
+      if (store.isVisibleInfo) {
+        store.isVisibleInfo = false;
+      } else {
+        store.isVisibleInfo = true
+      }
     }
   },
 
@@ -81,6 +96,8 @@ export default {
 
 <template>
   <div class="cards-container">
+    <button class="btn btn-secondary" @click="changeisVisibleInfo()">{{ store.isVisibleInfo ? 'Meno Info' : 'Più info'
+    }}</button>
     <div v-if="store.ApiArray.length > 0" class="preview-cards"
       :class="store.isAnimatePost ? 'post-animation' : store.isAnimatePrev ? 'prev-animation' : ''">
       <button class="btn btn-prev" @click="PrevClick()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -92,15 +109,15 @@ export default {
         <img :src="store.ApiArray[store.globalIndexPrevPrev].card_images[0].image_url">
       </div>
 
-      <div class="card card-prev">
+      <div class="card card-prev" @click="PrevClick()">
         <img :src="store.ApiArray[store.globalIndexPrev].card_images[0].image_url">
       </div>
 
-      <div class="card card-main">
+      <div class="card card-main" @mouseover="activeMainVisibility()" @mouseleave="disableMainVisibility()">
         <img :src="store.ApiArray[store.globalIndex].card_images[0].image_url">
       </div>
 
-      <div class="card card-post">
+      <div class="card card-post" @click="PostClick()">
         <img :src="store.ApiArray[store.globalIndexPost].card_images[0].image_url">
       </div>
 
@@ -110,14 +127,21 @@ export default {
 
     </div>
 
+
     <div class="info-box">
-      <h4>{{ store.ApiArray[store.globalIndexPrevPrev].name }}</h4>
+      <h2>{{ store.ApiArray[store.globalIndexPrevPrev].name }}</h2>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use '../scss/variables' as *;
+
+.btn-secondary {
+  font-size: .6em;
+  border: 1px solid grey;
+  margin: .4em;
+}
 
 .btn-post,
 .btn-prev {
@@ -226,6 +250,10 @@ export default {
         box-shadow: 0 0 10px black;
         filter: opacity(1);
         scale: 1;
+
+        &:hover {
+          animation: focusmain 2s infinite;
+        }
       }
 
       &-post {
@@ -492,6 +520,41 @@ export default {
     z-index: 1;
     filter: opacity(.8);
     scale: .97;
+  }
+}
+
+@keyframes focusmain {
+  0% {
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+    z-index: 2;
+
+    box-shadow: 0 0 10px black;
+    filter: opacity(1);
+    scale: 1;
+    rotate: 0deg;
+  }
+
+  50% {
+    scale: 1.05;
+    rotate: -2deg;
+  }
+
+  100% {
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+    z-index: 2;
+
+    box-shadow: 0 0 10px black;
+    filter: opacity(1);
+    scale: 1;
+    rotate: 0deg;
   }
 }
 </style>

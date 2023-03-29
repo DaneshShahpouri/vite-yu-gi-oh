@@ -18,43 +18,52 @@ export default {
     },
 
     mounted() {
-        console.log(store.ApiArray)
+        //console.log(store.ApiArray)
     }
 }
 </script>
 
 <template>
-    <ul class="container" :class="store.isVisibleInfo ? 'open' : ''">
-        <li class="title"> type</li>
-        <li>{{ store.ApiArray[store.globalIndex].type }}</li>
+    <div class="container-wrapper">
 
-        <li class="title">frame type</li>
-        <li>{{ store.ApiArray[store.globalIndex].frameType }}</li>
+        <ul class="container" :class="store.isVisibleInfo ? 'open' : ''">
+            <li class="title"> type</li>
+            <li>{{ store.ApiArray[store.globalIndex].type }}</li>
 
-        <li class="title">desc</li>
-        <li>{{ store.ApiArray[store.globalIndex].desc }}</li>
+            <li class="title">frame type</li>
+            <li>{{ store.ApiArray[store.globalIndex].frameType }}</li>
 
-        <li class="title">race</li>
-        <li>{{ store.ApiArray[store.globalIndex].race }}</li>
-    </ul>
-    <button class="btn btn-secondary" @click="changeisVisibleInfo()">{{ store.isVisibleInfo ? 'Meno Info' : 'Più info'
-    }}</button>
+            <li class="title">desc</li>
+            <li>{{ store.ApiArray[store.globalIndex].desc }}</li>
+
+            <li class="title">race</li>
+            <li>{{ store.ApiArray[store.globalIndex].race }}</li>
+        </ul>
+
+    </div>
 </template>
 
 <style lang="scss" scoped>
 @use '../scss/variables' as *;
 
-.btn-secondary {
-    font-size: .6em;
-    border: 1px solid grey;
-    margin: .4em;
+
+
+.container-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    height: 100%;
+    width: 330px;
+
+    position: relative;
 }
 
-
 .container {
-    overflow-y: auto;
-    width: 100%;
-    max-width: 600px;
+    transition: all .4s;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 300px;
     max-height: 0px;
 
     overflow-y: hidden;
@@ -78,8 +87,18 @@ export default {
     }
 }
 
+
 .open {
-    max-height: 500px;
-    overflow-y: scroll;
+    max-height: 650px;
+    overflow-y: auto;
+    position: absolute;
+
+    direction: rtl;
+
+    z-index: 3;
+
+    span {
+        direction: ltr;
+    }
 }
 </style>
