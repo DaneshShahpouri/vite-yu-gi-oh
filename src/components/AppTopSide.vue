@@ -72,6 +72,8 @@ export default {
           store.globalIndex = 0;
           store.globalIndexPost = store.globalIndex + 1;
           store.globalIndexPostPost = store.globalIndexPost + 1
+        } else if (store.globalIndex == 1) {
+          store.globalIndexPrevPrev = store.ApiArray.length - 1
         }
 
       }, this.AnimationTime);
@@ -113,9 +115,9 @@ export default {
     <div v-if="store.ApiArray.length > 0" class="preview-cards"
       :class="store.isAnimatePost ? 'post-animation' : store.isAnimatePrev ? 'prev-animation' : ''">
       <button class="btn btn-prev" @click="PrevClick()" v-if="store.ApiArray.length > 1"> <i class=" fa-solid
-              fa-arrow-left"></i></button>
+                      fa-arrow-left"></i></button>
       <button class="btn btn-post" @click="PostClick()" v-if="store.ApiArray.length > 1"> <i class=" fa-solid
-              fa-arrow-right"></i></button>
+                      fa-arrow-right"></i></button>
 
       <div class="layer-shadows"></div>
 
@@ -143,7 +145,7 @@ export default {
 
 
     <div class="info-box">
-      <h2>{{ store.ApiArray[store.globalIndex].name }}</h2>
+      <h2>{{ store.ApiArray[store.globalIndex].name.toUpperCase() }}</h2>
     </div>
   </div>
 </template>

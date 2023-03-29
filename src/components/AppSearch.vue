@@ -44,7 +44,7 @@ export default {
     align-items: center;
 
     span {
-        color: red;
+        color: rgb(172, 14, 14);
         margin-bottom: 3em;
         margin-top: 1em;
     }
@@ -56,7 +56,11 @@ export default {
     }
 
     .not-found {
-        border: 1px solid red;
+        background-color: rgba(105, 3, 3, 0);
+
+        &:focus-visible {
+            outline: 3px solid red
+        }
     }
 }
 </style>

@@ -36,6 +36,8 @@ export default {
                 store.globalIndexPostPost = store.globalIndexPost + 1;
             } else if (store.globalIndex == store.ApiArray.length - 2) {
                 store.globalIndexPostPost = 0;
+            } else if (store.globalIndex == 1) {
+                store.globalIndexPrevPrev = store.ApiArray.length - 1
             }
 
             //console.log(store.globalIndex)
