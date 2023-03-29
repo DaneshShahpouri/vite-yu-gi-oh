@@ -1,10 +1,11 @@
 <script>
 import { store } from './store';
-import AppBottomSide from './components/AppBottomSide.vue';
 import axios from 'axios';
 
+import AppBottomSide from './components/AppBottomSide.vue';
 import AppTopSide from './components/AppTopSide.vue';
 import AppMiddle from './components/AppMiddle.vue';
+import AppSearch from './components/AppSearch.vue';
 
 
 export default {
@@ -18,22 +19,74 @@ export default {
     AppTopSide,
     AppBottomSide,
     AppMiddle,
+    AppSearch,
+  },
+
+  methods: {
+    searchName() {
+      store.DontFuond = false;
+      //console.log(store.ApiCall + '?name')
+      let apicall;
+      apicall = store.ApiCall
+      store.ApiArray = [];
+
+      if (store.inputValue != '') {
+        apicall = apicall + `?fname=${store.inputValue}&num=200&offset=0&language=it`
+      } else {
+        apicall = store.ApiCall + "?num=200&offset=0&language=it";
+      }
+      //console.log(apicall)
+
+      axios.get(apicall).then((res) => {
+        //console.log(res)
+        for (let i = 0; i < res.data.data.length; i++) {
+          store.ApiArray.push(res.data.data[i]);
+        }
+        console.log(store.ApiArray)
+        store.ApiArrayLoader = true;
+        //console.log(store.ApiArray[1])
+
+        if (store.ApiArray.length == 0) {
+          store.ApiArray = []
+          store.DontFuond = true;
+          apicall = store.ApiCall + "?num=200&offset=0&language=it";
+          axios.get(apicall).then((res) => {
+
+            for (let i = 0; i < res.data.data.length; i++) {
+              store.ApiArray.push(res.data.data[i]);
+            }
+
+            store.inputValue = '';
+            console.log(store.ApiArray)
+          })
+        }
+      });
+      //console.log(store.ApiArray[1])
+
+
+    },
   },
 
   beforeCreate() {
+    //console.log(store.ApiCall + '?name')
+    let apicall;
+    apicall = store.ApiCall + "?num=200&offset=0&language=it";
+    if (store.inputValue != '') {
+      apicall = apicall + `?fname=${store.inputValue}&language=it`
+    }
 
-    axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=50&offset=0').then((res) => {
+
+    axios.get(apicall).then((res) => {
       //console.log(res)
       for (let i = 0; i < res.data.data.length; i++) {
         store.ApiArray.push(res.data.data[i]);
       }
+      //console.log(store.ApiArray)
+      store.ApiArrayLoader = true;
     });
   },
 
   mounted() {
-    //console.log(store.ApiArray)
-
-
   }
 }
 </script>
@@ -59,6 +112,7 @@ export default {
 
       </div>
     </div>
+    <AppSearch @searchEvent="searchName()"></AppSearch>
     <AppBottomSide></AppBottomSide>
 
   </div>

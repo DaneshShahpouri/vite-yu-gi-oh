@@ -4,21 +4,28 @@ import { reactive } from 'vue';
 export const store = reactive({
     ApiArray: [],
 
+    ApiArrayLoader: false,
+    // ApiCall: 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=50&offset=0',
+    ApiCall: 'https://db.ygoprodeck.com/api/v7/cardinfo.php',
+
+    inputValue: '',
+
     isVisibleInfo: false,
     isHoverMain: false,
     isHovermini: false,
+    DontFuond: false,
 
     // GLOBALINDEX
     isAnimatePrev: false,
     isAnimatePost: false,
 
 
-    globalIndexPrevPrev: 0,
-    globalIndexPrev: 1,
+    globalIndexPrevPrev: 48,
+    globalIndexPrev: 49,
 
-    globalIndex: 2,
+    globalIndex: 0,
 
-    globalIndexPost: 3,
-    globalIndexPostPost: 4,
+    globalIndexPost: 1,
+    globalIndexPostPost: 2,
     // fine GLOBALINDEX
 });

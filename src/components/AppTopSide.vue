@@ -108,16 +108,18 @@ export default {
     }}</button>
     <div v-if="store.ApiArray.length > 0" class="preview-cards"
       :class="store.isAnimatePost ? 'post-animation' : store.isAnimatePrev ? 'prev-animation' : ''">
-      <button class="btn btn-prev" @click="PrevClick()"><i class="fa-solid fa-arrow-left"></i></button>
-      <button class="btn btn-post" @click="PostClick()"><i class="fa-solid fa-arrow-right"></i></button>
+      <button class="btn btn-prev" @click="PrevClick()" v-if="store.ApiArray.length > 1"> <i class=" fa-solid
+          fa-arrow-left"></i></button>
+      <button class="btn btn-post" @click="PostClick()" v-if="store.ApiArray.length > 1"> <i class=" fa-solid
+          fa-arrow-right"></i></button>
 
       <div class="layer-shadows"></div>
 
-      <div class="card card-prev-prev" v-if="store.isAnimatePrev">
+      <div class="card card-prev-prev" v-if="store.isAnimatePrev && store.ApiArray.length > 4">
         <img :src="store.ApiArray[store.globalIndexPrevPrev].card_images[0].image_url">
       </div>
 
-      <div class="card card-prev" @click="PrevClick()">
+      <div class="card card-prev" @click="PrevClick()" v-if="store.ApiArray.length > 2">
         <img :src="store.ApiArray[store.globalIndexPrev].card_images[0].image_url">
       </div>
 
@@ -125,11 +127,11 @@ export default {
         <img :src="store.ApiArray[store.globalIndex].card_images[0].image_url">
       </div>
 
-      <div class="card card-post" @click="PostClick()">
+      <div class="card card-post" @click="PostClick()" v-if="store.ApiArray.length > 1">
         <img :src="store.ApiArray[store.globalIndexPost].card_images[0].image_url">
       </div>
 
-      <div class="card card-post-post" v-if="store.isAnimatePost">
+      <div class="card card-post-post" v-if="store.isAnimatePost && store.ApiArray.length > 3">
         <img :src="store.ApiArray[store.globalIndexPostPost].card_images[0].image_url">
       </div>
 

@@ -18,6 +18,7 @@ export default {
             } else[
                 this.isExpande = true
             ]
+
         },
 
         changeIndex(indexArguments) {
@@ -37,7 +38,7 @@ export default {
                 store.globalIndexPostPost = 0;
             }
 
-            console.log(store.globalIndex)
+            //console.log(store.globalIndex)
         },
 
         disableMiniVariable() {
@@ -56,7 +57,7 @@ export default {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container" v-if="store.ApiArray.length > 0">
         <div class="container-inner">
 
             <div class="box-control">
@@ -70,7 +71,8 @@ export default {
 
 
 
-                <div v-for="(card, index) in store.ApiArray" class="card" v-if="this.isExpande">
+                <div v-for="(card, index) in store.ApiArray" class="card"
+                    v-if="this.isExpande && store.ApiArrayLoader == true">
 
                     <div class="row">
                         <img :src="store.ApiArray[index].card_images[0].image_url_small" alt="img"
@@ -150,7 +152,7 @@ export default {
     position: relative;
 
 
-    background: #000;
+    //background: #000;
 
     .name {
         position: absolute;
