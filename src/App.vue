@@ -86,7 +86,7 @@ export default {
     display: flex;
 
 
-    margin: 1em;
+    margin: .3em;
   }
 
   .right-side {

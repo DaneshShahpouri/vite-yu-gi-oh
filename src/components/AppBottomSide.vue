@@ -30,7 +30,15 @@ export default {
             } else if (store.globalIndex == store.ApiArray.length - 1) {
                 store.globalIndexPost = 0
             }
-        }
+        },
+
+        disableMiniVariable() {
+            store.isHovermini = false;
+        },
+
+        activeMiniVariable() {
+            store.isHovermini = true;
+        },
     },
 
     mounted() {
@@ -57,10 +65,11 @@ export default {
                 <div v-for="(card, index) in store.ApiArray" class="card" v-if="this.isExpande">
 
                     <div class="row">
-
                         <img :src="store.ApiArray[index].card_images[0].image_url_small" alt="img"
-                            @click="changeIndex(index)" :class="store.globalIndex == index ? 'active' : ''">
+                            @click="changeIndex(index)" :class="store.globalIndex == index ? 'active' : ''"
+                            @mouseover="activeMiniVariable()" @mouseleave="disableMiniVariable()">
 
+                        <span class='name' v-if="store.isHovermini">{{ store.ApiArray[index].name }}</span>
 
 
                     </div>
@@ -82,6 +91,7 @@ export default {
     width: 100%;
     height: 200px;
     background: $backgroundcolor;
+    margin-bottom: 3em;
 
     .container-inner {
         margin: 0 auto;
@@ -92,7 +102,8 @@ export default {
             display: flex;
             justify-content: center;
 
-            margin: 1.5em;
+            margin: .5em;
+            margin-bottom: 5em;
 
             .btn-primary {
                 color: grey;
@@ -102,6 +113,7 @@ export default {
                 &:hover {
                     color: lighten($primary, $amount: 20);
                     border: 2px solid rgb(255, 255, 255);
+
                 }
 
             }
@@ -117,6 +129,7 @@ export default {
     justify-content: center;
     margin: 1em auto;
 
+
     gap: 0em;
 
     padding: 2em;
@@ -130,6 +143,24 @@ export default {
 
 
     background: #000;
+
+    .name {
+        position: absolute;
+        top: -80px;
+
+        left: 0;
+        z-index: 2;
+        padding: 1em;
+
+
+        text-transform: uppercase;
+        font-size: .8em;
+
+        text-align: center;
+        opacity: 0;
+        display: none;
+        transition: all .4s;
+    }
 
     .active {
         filter: contrast(1) brightness(1);
@@ -190,6 +221,12 @@ export default {
             filter: contrast(1) brightness(1);
             top: -28px;
             z-index: 2;
+        }
+
+        &:hover+.name {
+            opacity: 1;
+            display: inline-block;
+            text-shadow: 1px 1px 1px black;
         }
     }
 

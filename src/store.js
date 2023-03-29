@@ -6,6 +6,7 @@ export const store = reactive({
 
     isVisibleInfo: false,
     isHoverMain: false,
+    isHovermini: false,
 
     // GLOBALINDEX
     isAnimatePrev: false,
