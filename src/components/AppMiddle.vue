@@ -26,7 +26,7 @@ export default {
 <template>
     <div class="container-wrapper" v-if="store.ApiArray.length > 0">
 
-        <ul class="container" :class="store.isVisibleInfo ? 'open' : ''">
+        <ul class=" container" :class="store.isVisibleInfo ? 'open' : ''">
             <li class="title"> type</li>
             <li>{{ store.ApiArray[store.globalIndex].type }}</li>
 

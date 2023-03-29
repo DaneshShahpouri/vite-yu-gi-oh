@@ -42,24 +42,15 @@ export default {
         for (let i = 0; i < res.data.data.length; i++) {
           store.ApiArray.push(res.data.data[i]);
         }
-        console.log(store.ApiArray)
+        //console.log(store.ApiArray)
         store.ApiArrayLoader = true;
         //console.log(store.ApiArray[1])
 
-        if (store.ApiArray.length == 0) {
-          store.ApiArray = []
-          store.DontFuond = true;
-          apicall = store.ApiCall + "?num=200&offset=0&language=it";
-          axios.get(apicall).then((res) => {
 
-            for (let i = 0; i < res.data.data.length; i++) {
-              store.ApiArray.push(res.data.data[i]);
-            }
-
-            store.inputValue = '';
-            console.log(store.ApiArray)
-          })
-        }
+      }).catch((err) => {
+        //console.log('array vuoto');
+        store.inputValue = '';
+        store.DontFuond = true;
       });
       //console.log(store.ApiArray[1])
 
@@ -92,12 +83,12 @@ export default {
 </script>
 
 <template>
-  <div class="container-main" v-if="store.ApiArray.length > 0">
+  <div class="container-main">
     <div class="topside">
       <AppMiddle></AppMiddle>
       <AppTopSide></AppTopSide>
       <div class="right-side" :class="store.isHoverMain ? 'visibily' : ''">
-        <ul class="prices">
+        <ul class="prices" v-if="store.ApiArray.length > 0">
           <li class="mainli">Prezzi:</li>
 
           <li>Amazon: <strong>{{ store.ApiArray[store.globalIndex].card_prices[0].amazon_price }} $</strong></li>
@@ -113,7 +104,7 @@ export default {
       </div>
     </div>
     <AppSearch @searchEvent="searchName()"></AppSearch>
-    <AppBottomSide></AppBottomSide>
+    <AppBottomSide v-if="store.ApiArray.length > 0"></AppBottomSide>
 
   </div>
 </template>

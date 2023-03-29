@@ -37,6 +37,9 @@ export default {
         } else if (store.globalIndex == store.ApiArray.length - 2) {
           store.globalIndexPostPost = 0;
 
+        } else if (store.globalIndex == store.ApiArray.length - 1) {
+          store.globalIndexPost = 0;
+          store.globalIndexPostPost = store.globalIndexPost + 1
         }
 
       }, this.AnimationTime);
@@ -64,6 +67,7 @@ export default {
         } else if (store.globalIndex == store.ApiArray.length - 1) {
           store.globalIndexPost = 0;
           store.globalIndexPostPost = store.globalIndexPost + 1;
+
         } else if (store.globalIndex > store.ApiArray.length - 1) {
           store.globalIndex = 0;
           store.globalIndexPost = store.globalIndex + 1;
@@ -103,15 +107,15 @@ export default {
 </script>
 
 <template>
-  <div class="cards-container">
+  <div class="cards-container" v-if="store.ApiArray.length > 0">
     <button class="btn btn-secondary" @click="changeisVisibleInfo()">{{ store.isVisibleInfo ? 'Meno Info' : 'Più info'
     }}</button>
     <div v-if="store.ApiArray.length > 0" class="preview-cards"
       :class="store.isAnimatePost ? 'post-animation' : store.isAnimatePrev ? 'prev-animation' : ''">
       <button class="btn btn-prev" @click="PrevClick()" v-if="store.ApiArray.length > 1"> <i class=" fa-solid
-          fa-arrow-left"></i></button>
+              fa-arrow-left"></i></button>
       <button class="btn btn-post" @click="PostClick()" v-if="store.ApiArray.length > 1"> <i class=" fa-solid
-          fa-arrow-right"></i></button>
+              fa-arrow-right"></i></button>
 
       <div class="layer-shadows"></div>
 

@@ -20,9 +20,16 @@ export default {
 <template>
     <div class="container">
 
-        <input :class="store.DontFuond ? 'not-found' : ''" type="text" v-model="store.inputValue"
-            :placeholder="store.DontFuond ? 'Carta non Trovata' : 'cerca una carta'" @keyup.enter="$emit('searchEvent')">
-        <button class=" btn" @click="$emit('searchEvent')">Cerca</button>
+        <span v-if="store.DontFuond">Nessuna Carta Trovata</span>
+
+
+        <div class="input-wrapper">
+
+            <input :class="store.DontFuond ? 'not-found' : ''" type="text" v-model="store.inputValue"
+                :placeholder="store.DontFuond ? 'Carta non Trovata' : 'cerca una carta'"
+                @keyup.enter="$emit('searchEvent')">
+            <button class=" btn" @click="$emit('searchEvent')">Cerca</button>
+        </div>
 
     </div>
 </template>
@@ -32,8 +39,15 @@ export default {
 
 .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    span {
+        color: red;
+        margin-bottom: 3em;
+        margin-top: 1em;
+    }
 
     input {
         height: 30px;

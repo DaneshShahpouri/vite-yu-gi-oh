@@ -20,8 +20,8 @@ export const store = reactive({
     isAnimatePost: false,
 
 
-    globalIndexPrevPrev: 48,
-    globalIndexPrev: 49,
+    globalIndexPrevPrev: 198,
+    globalIndexPrev: 199,
 
     globalIndex: 0,
 
