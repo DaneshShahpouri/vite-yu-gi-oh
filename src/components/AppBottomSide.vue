@@ -24,12 +24,20 @@ export default {
             store.globalIndex = indexArguments;
             store.globalIndexPost = store.globalIndex + 1;
             store.globalIndexPrev = store.globalIndex - 1;
+            store.globalIndexPostPost = store.globalIndexPost + 1;
+            store.globalIndexPrevPrev = store.globalIndexPrev - 1;
 
             if (store.globalIndex == 0) {
-                store.globalIndexPrev == store.ApiArray.length - 1
+                store.globalIndexPrev = store.ApiArray.length - 1;
+                store.globalIndexPrevPrev = store.globalIndexPrev - 1
             } else if (store.globalIndex == store.ApiArray.length - 1) {
                 store.globalIndexPost = 0
+                store.globalIndexPostPost = store.globalIndexPost + 1;
+            } else if (store.globalIndex == store.ApiArray.length - 2) {
+                store.globalIndexPostPost = 0;
             }
+
+            console.log(store.globalIndex)
         },
 
         disableMiniVariable() {

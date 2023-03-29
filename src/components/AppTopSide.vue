@@ -32,7 +32,13 @@ export default {
           store.globalIndex = store.ApiArray.length - 1
           store.globalIndexPrev = store.globalIndex - 1;
           store.globalIndexPrevPrev = store.globalIndexPrev - 1;
+          store.globalIndexPost = 0;
+          store.globalIndexPostPost = store.globalIndexPost + 1;
+        } else if (store.globalIndex == store.ApiArray.length - 2) {
+          store.globalIndexPostPost = 0;
+
         }
+
       }, this.AnimationTime);
 
       store.isAnimatePrev = true;
@@ -53,6 +59,8 @@ export default {
 
         if (store.globalIndex == store.ApiArray.length - 2) {
           store.globalIndexPostPost = 0;
+          store.globalIndexPost = store.globalIndex + 1;
+
         } else if (store.globalIndex == store.ApiArray.length - 1) {
           store.globalIndexPost = 0;
           store.globalIndexPostPost = store.globalIndexPost + 1;
@@ -129,7 +137,7 @@ export default {
 
 
     <div class="info-box">
-      <h2>{{ store.ApiArray[store.globalIndexPrevPrev].name }}</h2>
+      <h2>{{ store.ApiArray[store.globalIndex].name }}</h2>
     </div>
   </div>
 </template>
