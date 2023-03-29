@@ -7,7 +7,7 @@ export default {
         return {
             store,
 
-            isExpande: true,
+            isExpande: false,
         }
     },
 
@@ -95,9 +95,9 @@ export default {
             margin: 1.5em;
 
             .btn-primary {
-                color: darken($primary, $amount: 10);
+                color: grey;
                 border: 2px solid rgb(134, 134, 134);
-                border-radius: 10px;
+
 
                 &:hover {
                     color: lighten($primary, $amount: 20);

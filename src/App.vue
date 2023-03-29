@@ -1,9 +1,9 @@
 <script>
 import { store } from './store';
+import AppBottomSide from './components/AppBottomSide.vue';
 import axios from 'axios';
 
 import AppTopSide from './components/AppTopSide.vue';
-import AppBottomSide from './components/AppBottomSide.vue';
 import AppMiddle from './components/AppMiddle.vue';
 
 
@@ -39,10 +39,10 @@ export default {
 
 <template>
   <div class="container-main" v-if="store.ApiArray.length > 0">
+    <AppMiddle></AppMiddle>
     <div class="topside">
       <AppTopSide></AppTopSide>
     </div>
-    <AppMiddle></AppMiddle>
     <AppBottomSide></AppBottomSide>
 
   </div>
@@ -64,6 +64,7 @@ export default {
     width: 100%;
     max-width: 800px;
 
+    margin: 1em;
   }
 
 }

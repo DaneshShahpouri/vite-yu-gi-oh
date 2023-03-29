@@ -24,8 +24,6 @@ export default {
 </script>
 
 <template>
-    <button class="btn btn-secondary" @click="changeisVisibleInfo()">{{ store.isVisibleInfo ? 'Meno Info' : 'Più info'
-    }}</button>
     <ul class="container" :class="store.isVisibleInfo ? 'open' : ''">
         <li class="title"> type</li>
         <li>{{ store.ApiArray[store.globalIndex].type }}</li>
@@ -39,6 +37,8 @@ export default {
         <li class="title">race</li>
         <li>{{ store.ApiArray[store.globalIndex].race }}</li>
     </ul>
+    <button class="btn btn-secondary" @click="changeisVisibleInfo()">{{ store.isVisibleInfo ? 'Meno Info' : 'Più info'
+    }}</button>
 </template>
 
 <style lang="scss" scoped>
@@ -54,8 +54,10 @@ export default {
 .container {
     overflow-y: auto;
     width: 100%;
-    max-width: 1000px;
-    max-height: 50px;
+    max-width: 600px;
+    max-height: 0px;
+
+    overflow-y: hidden;
 
     color: grey;
 
@@ -78,5 +80,6 @@ export default {
 
 .open {
     max-height: 500px;
+    overflow-y: scroll;
 }
 </style>
